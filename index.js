@@ -2,6 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const { send } = require('express/lib/response');
 const app = express();
+const sql = require('mysql2');
+const sequelize = require('sequelize');
+
+const conn = new sequelize("db_game", "root", "",{
+    host:"localhost",
+    port: 3306,
+    dialect: "mysql"
+});
 
 app.listen(3000, function () {
     console.log('CORS-enabled web server listening on port 3000');
@@ -63,9 +71,26 @@ const sendEntity = (req,res) =>{
     return res.status(200).send(JSON.stringify(FullMap.entity));
 }
 
-const sendPertanyaan = (req, res) => {
-    console.log(`IN ${counterIN++}`);
-    return res.status(200).send(JSON.stringify("Ini pertanyaan"));
+async function getPertanyaanCount(){
+    let count = await conn.query(
+        `Select COUNT(*) as count from question`
+    )
+
+    return count[0][0].count;
+}
+
+const sendPertanyaan = async (req, res) => {
+    const countPertanyaan = await getPertanyaanCount();
+    let RNG = Math.floor(Math.random() * (countPertanyaan-1));
+    let id = `q_${RNG}`;
+    let [result,metadata] = await conn.query(
+        `select * from question where id=:id`,{
+            replacements:{
+                id:id
+            }
+        }
+    )
+    return res.status(200).send(result[0]);
 }
 
 const sendPosition=(req,res)=>{
