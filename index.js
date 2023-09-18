@@ -81,7 +81,9 @@ async function getPertanyaanCount(){
 
 const sendPertanyaan = async (req, res) => {
     const countPertanyaan = await getPertanyaanCount();
-    let RNG = Math.floor(Math.random() * (countPertanyaan-1));
+    console.log(countPertanyaan);
+    let RNG = Math.round(Math.random() * (countPertanyaan-1));
+
     let id = `q_${RNG}`;
     let [result,metadata] = await conn.query(
         `select * from question where id=:id`,{
