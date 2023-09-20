@@ -44,11 +44,42 @@ const generateNewMap = () => {
                         dict.tile[i].push("gravel");
                     }
                 }
-                if (Math.round(Math.random()) && (j != 1 && i != 1)) {
-                    dict.entity[i].push("rock");
+                // if (Math.round(Math.random()) && (j != 1 && i != 1)) {
+                //     dict.entity[i].push("rock");
+                // }
+                // else {
+                //     if(Math.round(Math.random()) && (j != 1 && i != 1)){
+                //         dict.entity[i].push("chest");
+                //     }
+                //     else{
+                //         dict.entity[i].push("empty");
+                //     }
+                // }
+                if(j!=1 && i!=1){
+                    if(Math.round(Math.random())){
+                        const spawn = Math.floor(Math.random() * 101);
+                        if(spawn<40){
+                            dict.entity[i].push("rock");
+                        }
+                        else if(spawn>=50&&spawn<65){
+                            dict.entity[i].push("chest");
+                        }
+                        else if(spawn>=65&&spawn<85){
+                            dict.entity[i].push("iron_ore")
+                        }
+                        else if(spawn>=85&&spawn<95){
+                            dict.entity[i].push("silver_ore")
+                        }
+                        else {
+                            dict.entity[i].push("gold_ore")
+                        }
+                    }
+                    else{
+                        dict.entity[i].push('empty')
+                    }
                 }
-                else {
-                    dict.entity[i].push("empty");
+                else{
+                    dict.entity[i].push('empty')
                 }
             }
         }
