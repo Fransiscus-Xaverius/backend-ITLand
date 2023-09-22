@@ -65,3 +65,31 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+CREATE TABLE `users` (
+  `id` varchar(128) NOT NULL PRIMARY KEY,
+  `name` varchar(128) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `score` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `question`
+--
+
+INSERT INTO `users` (`id`, `name`, `password`) VALUES
+('U001', 'christo', 'Christo1234'),
+('U002', 'kevin', 'Kevin1234'),
+('U003', 'hansen', 'Hansen1234');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `question`
+--
+ALTER TABLE `question`
+  ADD PRIMARY KEY (`id`);
+COMMIT;
