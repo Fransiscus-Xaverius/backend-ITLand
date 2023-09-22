@@ -2,7 +2,7 @@ const env = require("../config/env.json");
 
 const { Sequelize } = require('sequelize');
 
-const sequelize = new sequelize("db_game", "root", "", {
+const sequelize = new Sequelize("db_game", "root", "", {
     host: "localhost",
     port: 3306,
     dialect: "mysql"

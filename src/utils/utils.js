@@ -1,44 +1,6 @@
 const sequelize = require("../database/db");
 
-const FullMap = generateNewMap();
-
-module.exports = {
-    sendAll: (req, res) => {
-        return res.status(200).send(JSON.stringify(dict.map));
-    },
-    sendMap: (req, res) => {
-        console.log(`IN ${counterIN++}`);
-        return res.status(200).send(JSON.stringify(FullMap.tile));
-    },
-    sendEntity: (req, res) => {
-        return res.status(200).send(JSON.stringify(FullMap.entity));
-    },
-    getPertanyaanCount: async function () {
-        let count = await sequelize.query(
-            `Select COUNT(*) as count from question`
-        )
-        return count[0][0].count;
-    },
-    sendPertanyaan: async (req, res) => {
-        const countPertanyaan = await getPertanyaanCount();
-        console.log(countPertanyaan);
-        let RNG = Math.round(Math.random() * (countPertanyaan - 1));
-
-        let id = `q_${RNG}`;
-        let [result, metadata] = await sequelize.query(
-            `select * from question where id=:id`, {
-            replacements: {
-                id: id
-            }
-        }
-        )
-        return res.status(200).send(result[0]);
-    },
-    sendPosition: (req, res) => {
-        let posX = req.header("x");
-        let posY = req.header("y");
-    },
-
+const functions = {
     generateNewMap: () => {
         let dict = {
             tile: [],
@@ -65,17 +27,6 @@ module.exports = {
                             dict.tile[i].push("gravel");
                         }
                     }
-                    // if (Math.round(Math.random()) && (j != 1 && i != 1)) {
-                    //     dict.entity[i].push("rock");
-                    // }
-                    // else {
-                    //     if(Math.round(Math.random()) && (j != 1 && i != 1)){
-                    //         dict.entity[i].push("chest");
-                    //     }
-                    //     else{
-                    //         dict.entity[i].push("empty");
-                    //     }
-                    // }
                     if (j != 1 && i != 1) {
                         if (Math.round(Math.random())) {
                             const spawn = Math.floor(Math.random() * 101);
@@ -107,5 +58,6 @@ module.exports = {
         }
         return dict;
     }
-
 }
+
+module.exports = functions

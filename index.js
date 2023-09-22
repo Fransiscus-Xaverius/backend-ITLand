@@ -5,7 +5,8 @@ const app = express();
 const sql = require('mysql2');
 const sequelize = require('sequelize');
 const router = require('./src/routes/router');
-
+const { generateNewMap } = require('./src/utils/utils');
+app.use(cors())
 app.use("/", router)
 
 app.listen(3000, function () {
@@ -18,7 +19,6 @@ let counterIN = 0;
 // const FullMap = generateNewMap();
 
 
-// app.use(cors())
 // app.post('/position', sendPosition);
 // app.get('/map', sendMap);
 // app.get('/entity', sendEntity);
