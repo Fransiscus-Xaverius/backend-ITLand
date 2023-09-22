@@ -1,6 +1,6 @@
-const sequelize = require("sequelize");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../config/env.json")
+const { JWT_SECRET } = require("../config/env.json");
+const sequelize = require("../database/db");
 
 async function login(req, res) {
     console.log(req.body);
@@ -11,16 +11,20 @@ async function login(req, res) {
     if (password.value) {
         password = password.value;
     }
+
     try {
-        const queryLogin = "SELECT * FROM users WHERE (username = ? and password = ?)";
+        const queryLogin = "SELECT * FROM users WHERE username = ? AND password = ?";
         const [login, loginMetadata] = await sequelize.query(queryLogin, {
-            replacements: [username, username],
+            replacements: [username, password],
             type: sequelize.QueryTypes.SELECT,
         });
+        console.log("Login : "+login)
+        console.log("Login0 : "+login[0])
         if (login) {
             const token = jwt.sign(login, JWT_SECRET, {
                 expiresIn: '6h'
             })
+            console.log(token);
             return res.send(token);
         }
     } catch (error) {

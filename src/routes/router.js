@@ -1,8 +1,7 @@
 const express = require("express");
 const sequelize = require("../database/db");
-const login = require("../controller/login");
 const { sendPosition, sendMap, sendEntity, sendPertanyaan, sendAll } = require("../controller/map");
-
+const login = require("../controller/login");
 
 const router = express.Router();
 
