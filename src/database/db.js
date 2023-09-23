@@ -1,11 +1,11 @@
-const env = require("../config/env.json");
+const { DB_DATABASE, DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_DIALECT } = require("../config/env.json");;
 
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize("db_game", "root", "", {
-    host: "localhost",
-    port: 3306,
-    dialect: "mysql"
+const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
+    host: DB_HOST,
+    port: DB_PORT,
+    dialect: DB_DIALECT
 });
 
 sequelize.authenticate()

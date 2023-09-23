@@ -1,5 +1,4 @@
 const express = require("express");
-const sequelize = require("../database/db");
 const { sendPosition, sendMap, sendEntity, sendPertanyaan, sendAll } = require("../controller/map");
 const login = require("../controller/login");
 
