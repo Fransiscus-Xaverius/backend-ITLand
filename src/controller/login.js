@@ -18,8 +18,8 @@ async function login(req, res) {
             replacements: [username, password],
             type: sequelize.QueryTypes.SELECT,
         });
-        console.log("Login : " + login);
-        console.log("LoginStringify : " + JSON.stringify(login));
+        // console.log("Login : " + login);
+        // console.log("LoginStringify : " + JSON.stringify(login));
         if (login) {
             const token = jwt.sign(login, JWT_SECRET, {
                 expiresIn: '6h'
@@ -27,6 +27,9 @@ async function login(req, res) {
             console.log(token);
             return res.send({ "token": token });
         }
+        // if (login) {
+        //     req.session = login;
+        // }
     } catch (error) {
         console.error(error);
     }
