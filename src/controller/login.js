@@ -13,22 +13,22 @@ async function login(req, res) {
     }
 
     try {
-        const queryLogin = "SELECT * FROM users WHERE username = ? AND password = ?";
+        const queryLogin = "SELECT * FROM users WHERE name = ? AND password = ?";
         const [login, loginMetadata] = await sequelize.query(queryLogin, {
             replacements: [username, password],
             type: sequelize.QueryTypes.SELECT,
         });
-        console.log("Login : "+login);
-        console.log("Login0 : "+login[0]);
+        console.log("Login : " + login);
+        console.log("LoginStringify : " + JSON.stringify(login));
         if (login) {
             const token = jwt.sign(login, JWT_SECRET, {
                 expiresIn: '6h'
             })
             console.log(token);
-            return res.send(token);
+            return res.send({ "token": token });
         }
     } catch (error) {
-
+        console.error(error);
     }
 }
 
