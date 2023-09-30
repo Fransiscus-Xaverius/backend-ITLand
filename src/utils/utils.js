@@ -1,3 +1,6 @@
+const { JWT_SECRET } = require("../config/env.json");
+const jwt = require("jsonwebtoken");
+
 const sequelize = require("../database/db");
 
 const functions = {
