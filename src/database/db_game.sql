@@ -1,13 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 18, 2023 at 07:52 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
-
-
+-- Generation Time: Oct 01, 2023 at 10:43 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -15,7 +13,6 @@ SET time_zone = "+00:00";
 
 create database if not exists db_game;
 use db_game;
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,6 +22,18 @@ use db_game;
 --
 -- Database: `db_game`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `entity`
+--
+
+CREATE TABLE `entity` (
+  `entity_name` varchar(128) NOT NULL,
+  `x` int(11) NOT NULL,
+  `y` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -51,6 +60,41 @@ INSERT INTO `question` (`id`, `text`, `a`, `b`, `c`, `d`, `answer`) VALUES
 ('q_1', 'Jika 5 orang dapat menyelesaikan pekerjaan dalam waktu 10 hari, berapa lama waktu yang dibutuhkan 8 orang untuk menyelesaikan pekerjaan yang sama?', '4 hari', '5 hari', '6 hari', '8 hari', 'c'),
 ('q_2', 'Sebuah tim sepak bola terdiri dari 11 pemain. Dalam satu pertandingan, setiap pemain mencetak gol satu kali kecuali satu pemain yang mencetak dua gol. Berapa gol total yang dicetak oleh tim tersebut dalam pertandingan?', '11', '12', '13', '14', 'b');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tile`
+--
+
+CREATE TABLE `tile` (
+  `tile_name` varchar(128) NOT NULL,
+  `x` int(11) NOT NULL,
+  `y` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` varchar(128) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `score` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `password`, `score`) VALUES
+('U001', 'christo', 'Christo1234', 0),
+('U002', 'kevin', 'Kevin1234', 0),
+('U003', 'hansen', 'Hansen1234', 0),
+('U004', 'frans-1', 'frans', 0);
+
 --
 -- Indexes for dumped tables
 --
@@ -59,37 +103,15 @@ INSERT INTO `question` (`id`, `text`, `a`, `b`, `c`, `d`, `answer`) VALUES
 -- Indexes for table `question`
 --
 ALTER TABLE `question`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
-CREATE TABLE `users` (
-  `id` varchar(128) NOT NULL PRIMARY KEY,
-  `name` varchar(128) NOT NULL,
-  `password` varchar(128) NOT NULL,
-  `score` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `question`
---
-
-INSERT INTO `users` (`id`, `name`, `password`) VALUES
-('U001', 'christo', 'Christo1234'),
-('U002', 'kevin', 'Kevin1234'),
-('U003', 'hansen', 'Hansen1234');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `question`
---
-ALTER TABLE `question`
-  ADD PRIMARY KEY (`id`);
-COMMIT;
