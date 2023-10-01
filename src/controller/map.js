@@ -1,13 +1,27 @@
 const sequelize = require("../database/db");
 const { generateNewMap } = require("../utils/utils");
 
-// let FullMap = await generateNewMap();
-
 let FullMap;
 
 (async() => {
-    FullMap = await getEntityFromDB();
+    let exists = await mapExists();
+    if(exists){
+        FullMap = await getEntityFromDB();
+    }
+    else{
+        FullMap = await generateNewMap();
+    }
 })();
+
+async function mapExists(){
+    let foo = await sequelize.query(
+        `select COUNT(*) as count from entity`,{
+        }
+    )
+    let count =  foo[0][0].count;
+    if(count==0) return false;
+    return true;
+}
 
 async function getEntityFromDB(){
     let dict = {
