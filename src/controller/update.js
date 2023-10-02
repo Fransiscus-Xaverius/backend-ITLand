@@ -16,21 +16,45 @@ async function updateGold(req,res){
     }
 }
 
+async function playerDefined(){
+    let foo = await sequelize.query(
+        `select COUNT(*) as count from player`,{
+        }
+    )
+    let count =  foo[0][0].count;
+    if(count==0) return false;
+    return true;
+}
+
+async function getPlayer(req,res){
+    let player = {
+        x : 1,
+        y: 1,
+        gold: 500
+    }
+
+    let [result, metadata] = await sequelize.query(`SELECT * from player`);
+    player.x = result[0].x;
+    player.y = result[0].y;
+    player.gold = result[0].gold;
+    return res.status(200).send(result[0]);
+}
+
 async function initializePlayerData(req,res){
     const {x,y,energy} = req.query;
-    let foo = await sequelize.query(`TRUNCATE TABLE player`);
-    if(!foo){
-        return res.status(500).send({msg:"error"}) //i forgor apa code yang bener buat server error
-    }
-    foo = await sequelize.query(`INSERT INTO player (x, y, energy) VALUES (:x, :y, :energy)`,{
-        replacements:{
-            x:x,
-            y:y,
-            energy:energy
+    const defined = await playerDefined();
+    if(!defined){
+        foo = await sequelize.query(`INSERT INTO player (x, y, energy) VALUES (:x, :y, :energy)`,{
+            replacements:{
+                x:x,
+                y:y,
+                energy:energy
+            }
+        })
+        if(!foo){
+            return res.status(500).send({msg:"error"})
         }
-    })
-    if(!foo){
-        return res.status(500).send({msg:"error"})
+        return res.status(200).send("OK");
     }
     return res.status(200).send("OK");
 }
@@ -87,7 +111,8 @@ async function registerGold(req,res){
 module.exports = {
     getGold,
     initializePlayerData,
-    updatePlayer
+    updatePlayer,
+    getPlayer
 }
 
 
