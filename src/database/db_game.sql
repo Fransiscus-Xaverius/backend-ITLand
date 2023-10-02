@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2023 at 10:43 AM
+-- Generation Time: Oct 02, 2023 at 09:16 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -33,6 +33,18 @@ CREATE TABLE `entity` (
   `entity_name` varchar(128) NOT NULL,
   `x` int(11) NOT NULL,
   `y` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `player`
+--
+
+CREATE TABLE `player` (
+  `x` int(11) NOT NULL,
+  `y` int(11) NOT NULL,
+  `energy` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
