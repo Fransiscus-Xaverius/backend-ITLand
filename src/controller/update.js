@@ -16,10 +16,10 @@ async function updateGold(req,res){
     }
 
     const username = userdata.name;
-    const url = `http://localhost:8000/transaction?username=${username}&gold=${gold}`;
-    let result = await axios.get(url);
-    console.log(result.data);
+    const url = `http://localhost:8000/gold?username=${username}&amount=${gold}`;
+    let result = await axios.post(url);
     
+    return res.status(200).send({msg:"OK"});
 
 }
 
