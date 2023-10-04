@@ -63,16 +63,44 @@ const functions = {
                                 }
                             )
                         } else {
-                            dict.tile[i].push("gravel");
-                            let foo = await sequelize.query(
-                                `INSERT INTO tile (tile_name, x, y) VALUES (:tile_name, :x, :y)`,{
-                                    replacements:{
-                                        tile_name:"gravel",
-                                        x:j,
-                                        y:i
+                            if(Math.round(Math.random())){
+                                dict.tile[i].push("gravel");
+                                let foo = await sequelize.query(
+                                    `INSERT INTO tile (tile_name, x, y) VALUES (:tile_name, :x, :y)`,{
+                                        replacements:{
+                                            tile_name:"gravel",
+                                            x:j,
+                                            y:i
+                                        }
                                     }
+                                )
+                            }
+                            else{
+                                if(Math.round(Math.random())){
+                                    dict.tile[i].push("cave");
+                                    let foo = await sequelize.query(
+                                        `INSERT INTO tile (tile_name, x, y) VALUES (:tile_name, :x, :y)`,{
+                                            replacements:{
+                                                tile_name:"cave",
+                                                x:j,
+                                                y:i
+                                            }
+                                        }
+                                    )
                                 }
-                            )
+                                else{
+                                    dict.tile[i].push("granite");
+                                    let foo = await sequelize.query(
+                                        `INSERT INTO tile (tile_name, x, y) VALUES (:tile_name, :x, :y)`,{
+                                            replacements:{
+                                                tile_name:"granite",
+                                                x:j,
+                                                y:i
+                                            }
+                                        }
+                                    )
+                                }
+                            }
                         }
                     }
                     if (j != 1 && i != 1) {
