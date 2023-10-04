@@ -1,7 +1,7 @@
 const express = require("express");
 const { sendPosition, sendMap, sendEntity, sendPertanyaan, sendAll, removeEntity} = require("../controller/map");
 const login = require("../controller/login");
-const {getGold, initializePlayerData, updatePlayer, getPlayer} = require("../controller/update");
+const {getGold, initializePlayerData, updatePlayer, getPlayer, updateGold} = require("../controller/update");
 
 const router = express.Router();
 
@@ -11,6 +11,9 @@ router.get('/entity', sendEntity);
 router.get('/question', sendPertanyaan);
 router.get('/', sendAll);
 router.delete("/entity", removeEntity)
+
+//send to master
+router.post("/transaction", updateGold); //gold transaction to master API.
 
 //load endpoints
 router.get('/map', sendMap);

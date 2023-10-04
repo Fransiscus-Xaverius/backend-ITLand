@@ -6,14 +6,21 @@ const axios = require("axios");
 //jwt verification can be implemented with a function but this will do for now.
 
 async function updateGold(req,res){
-    const token = req.body.token;
-    const gold = req.body.gold;
+    const token = req.header("token");
+    const gold = req.query.gold;
     let userdata;
     try {
         userdata = jwt.verify(token, JWT_SECRET);
     } catch (error) {
         return res.status(401).send({message:"Token tidak valid"})
     }
+
+    const username = userdata.name;
+    const url = `http://localhost:8000/transaction?username=${username}&gold=${gold}`;
+    let result = await axios.get(url);
+    console.log(result.data);
+    
+
 }
 
 async function playerDefined(){
@@ -112,7 +119,8 @@ module.exports = {
     getGold,
     initializePlayerData,
     updatePlayer,
-    getPlayer
+    getPlayer,
+    updateGold
 }
 
 
