@@ -20,7 +20,14 @@ async function updateGold(req,res){
     let result = await axios.post(url);
     
     return res.status(200).send({msg:"OK"});
+}
 
+async function Attack(req,res){
+    const username = req.query.username;
+    const gold = req.query.gold;
+    const url = `http://localhost:8000/gold?username=${username}&amount=${gold}`;
+    let result = await axios.post(url);
+    return res.status(200).send({msg:"OK"});
 }
 
 async function playerDefined(){
@@ -121,7 +128,8 @@ module.exports = {
     initializePlayerData,
     updatePlayer,
     getPlayer,
-    updateGold
+    updateGold,
+    Attack
 }
 
 
