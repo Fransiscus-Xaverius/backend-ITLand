@@ -29,6 +29,7 @@ async function playerDefined(){
         }
     )
     let count =  foo[0][0].count;
+    console.log("player data : "+count);
     if(count==0) return false;
     return true;
 }
@@ -63,6 +64,7 @@ async function initializePlayerData(req,res){
         }
         return res.status(200).send("OK");
     }
+    
     return res.status(200).send("OK");
 }
 
@@ -99,9 +101,8 @@ async function getGold(req,res){
     let url = "http://localhost:8000/gold";
     url+=`?username=${username}`;
     let result = await axios.get(url);
-    console.log(result.data.gold);
-    return res.status(200).send("done");
-
+    console.log(result.data["SUM(gold)"]);
+    return res.status(200).send({gold: result.data["SUM(gold)"]});
 }
 
 async function registerGold(req,res){
