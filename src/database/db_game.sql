@@ -102,10 +102,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `password`, `score`) VALUES
-('U001', 'christo', 'Christo1234', 0),
-('U002', 'kevin', 'Kevin1234', 0),
-('U003', 'hansen', 'Hansen1234', 0),
-('U004', 'frans-1', 'frans', 0);
+('U001', 'test1', '12345678', 0),
+('U002', 'test2', '12345678', 0),
+('U003', 'test3', '12345678', 0),
+('U004', 'test4', '12345678', 0),
+('U005', 'test5', '12345678', 0),
+('U006', 'test6', '12345678', 0),
+('U007', 'test7', '12345678', 0),
+('U008', 'test8', '12345678', 0),
+('U009', 'test9', '12345678', 0),
+('U010', 'test10', '12345678', 0);
 
 --
 -- Indexes for dumped tables
