@@ -50,9 +50,10 @@ async function getPlayer(req, res) {
     }
 
     let [result, metadata] = await sequelize.query(`SELECT * from player`);
-    player.x = result[0].x;
-    player.y = result[0].y;
-    player.gold = result[0].gold;
+    console.log(result[0]);
+    // player.x = result[0].x;
+    // player.y = result[0].y;
+    // player.gold = result[0].gold;
     return res.status(200).send(result[0]);
 }
 
@@ -91,7 +92,7 @@ async function updatePlayer(req, res) {
     if (!foo) {
         return res.status(500).send({ msg: "error" })
     }
-    console.log("updated player!");
+    // console.log("updated player!");
     return res.status(200).send("OK");
 }
 
@@ -105,12 +106,11 @@ async function getGold(req, res) {
         return res.status(401).send({ message: "Token tidak valid" })
     }
     let username = userdata.name;
-    console.log(username);
+    // console.log(username);
     let url = `${MASTER_API_URL}/gold`;
     url += `?username=${username}`;
     let result = await axios.get(url);
     if(result.data["SUM(gold)"]){
-        console.log('not null')
         return res.status(200).send({ gold: result.data["SUM(gold)"] });
     }
     return res.status(200).send({gold:0});
