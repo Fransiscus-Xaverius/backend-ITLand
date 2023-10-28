@@ -11,8 +11,8 @@ const functions = {
             entity: []
         };
 
-        let deleteAll = await sequelize.query(`TRUNCATE TABLE entity`)
-        deleteAll = await sequelize.query(`TRUNCATE TABLE tile`)
+        // let deleteAll = await sequelize.query(`TRUNCATE TABLE entity`)
+        // deleteAll = await sequelize.query(`TRUNCATE TABLE tile`)
         for (let i = 0; i < 100; i++) {
             dict.tile.push([])
             dict.entity.push([])
@@ -28,11 +28,11 @@ const functions = {
                             }
                         }
                     )
-                    dict.entity[i].push("rock");
+                    dict.entity[i].push("obsidian");
                     foo = await sequelize.query(
                         `INSERT INTO entity (entity_name, x, y) VALUES (:entity_name, :x, :y)`,{
                             replacements:{
-                                entity_name:"rock",
+                                entity_name:"obsidian",
                                 x:j,
                                 y:i
                             }
@@ -117,18 +117,7 @@ const functions = {
                                         }
                                     }
                                 )
-                            } else if (spawn >= 50 && spawn < 65) {
-                                dict.entity[i].push("chest");
-                                let foo = await sequelize.query(
-                                    `INSERT INTO entity (entity_name, x, y) VALUES (:entity_name, :x, :y)`,{
-                                        replacements:{
-                                            entity_name:"chest",
-                                            x:j,
-                                            y:i
-                                        }
-                                    }
-                                )
-                            } else if (spawn >= 65 && spawn < 85) {
+                            }  else if (spawn >= 50 && spawn < 80) {
                                 dict.entity[i].push("iron_ore")
                                 let foo = await sequelize.query(
                                     `INSERT INTO entity (entity_name, x, y) VALUES (:entity_name, :x, :y)`,{
@@ -139,7 +128,7 @@ const functions = {
                                         }
                                     }
                                 )
-                            } else if (spawn >= 85 && spawn < 95) {
+                            } else if (spawn >= 80 && spawn < 90) {
                                 dict.entity[i].push("silver_ore")
                                 let foo = await sequelize.query(
                                     `INSERT INTO entity (entity_name, x, y) VALUES (:entity_name, :x, :y)`,{
@@ -163,16 +152,58 @@ const functions = {
                                 )
                             }
                         } else {
-                            dict.entity[i].push('empty')
-                            let foo = await sequelize.query(
-                                `INSERT INTO entity (entity_name, x, y) VALUES (:entity_name, :x, :y)`,{
-                                    replacements:{
-                                        entity_name:"empty",
-                                        x:j,
-                                        y:i
-                                    }
+                            if(Math.round(Math.random())){
+                                const spawn = Math.floor(Math.random() * 101);
+                                if (spawn < 40) {
+                                    console.log('normal')
+                                    dict.entity[i].push("chest");
+                                    let foo = await sequelize.query(
+                                        `INSERT INTO entity (entity_name, x, y) VALUES (:entity_name, :x, :y)`,{
+                                            replacements:{
+                                                entity_name:"chest",
+                                                x:j,
+                                                y:i
+                                            }
+                                        }
+                                    )
                                 }
-                            )
+                                else if (spawn >= 40 && spawn < 85) {
+                                    dict.entity[i].push("medium_chest");
+                                    let foo = await sequelize.query(
+                                        `INSERT INTO entity (entity_name, x, y) VALUES (:entity_name, :x, :y)`,{
+                                            replacements:{
+                                                entity_name:"medium_chest",
+                                                x:j,
+                                                y:i
+                                            }
+                                        }
+                                    )
+                                }
+                                else{
+                                    dict.entity[i].push("big_chest");
+                                    let foo = await sequelize.query(
+                                        `INSERT INTO entity (entity_name, x, y) VALUES (:entity_name, :x, :y)`,{
+                                            replacements:{
+                                                entity_name:"big_chest",
+                                                x:j,
+                                                y:i
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                            else{
+                                dict.entity[i].push('empty')
+                                let foo = await sequelize.query(
+                                    `INSERT INTO entity (entity_name, x, y) VALUES (:entity_name, :x, :y)`,{
+                                        replacements:{
+                                            entity_name:"empty",
+                                            x:j,
+                                            y:i
+                                        }
+                                    }
+                                )
+                            }
                         }
                     } else {
                         dict.entity[i].push('empty')

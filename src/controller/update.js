@@ -109,8 +109,11 @@ async function getGold(req, res) {
     let url = `${MASTER_API_URL}/gold`;
     url += `?username=${username}`;
     let result = await axios.get(url);
-    console.log(result.data["SUM(gold)"]);
-    return res.status(200).send({ gold: result.data["SUM(gold)"] });
+    if(result.data["SUM(gold)"]){
+        console.log('not null')
+        return res.status(200).send({ gold: result.data["SUM(gold)"] });
+    }
+    return res.status(200).send({gold:0});
 }
 
 async function registerGold(req, res) {

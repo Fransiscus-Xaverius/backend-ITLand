@@ -50,7 +50,7 @@ async function getEntityFromDB(){
             dict.tile[i].push(tiles[0][j].tile_name);
         }
     }
-    console.log(dict.tile);
+    console.log(dict.entity);
     return dict;
 }
 

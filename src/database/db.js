@@ -5,7 +5,8 @@ const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
     host: DB_HOST,
     port: DB_PORT,
-    dialect: DB_DIALECT
+    dialect: DB_DIALECT,
+    logging:false
 });
 
 sequelize.authenticate()
