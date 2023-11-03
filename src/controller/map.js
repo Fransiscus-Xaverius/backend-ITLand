@@ -62,6 +62,28 @@ const sendMap = async (req, res) => {
     return res.status(200).send(JSON.stringify(FullMap.tile));
 }
 
+const updateTile = async (req,res) =>{
+    const {x,y,tile} = req.query;
+
+    //save the grid change to DB. this is just in-case of a power outage or if the local backend API needs to be restarted
+    let foo = await sequelize.query(
+        `UPDATE tile SET tile_name=:tile_name WHERE x=:x and y=:y`,{
+            replacements:{
+                tile_name:tile,
+                x:x,
+                y:y
+            }
+        }
+    )
+
+    FullMap.tile[y][x] = tile;
+
+    if(foo){
+        return res.status(200).send({msg:"Done"})
+    }
+    return res.status(500).send({MSG:"Error server"});
+}
+
 const removeEntity = async (req,res) =>{
     const {x,y} = req.query;
     
@@ -123,5 +145,6 @@ module.exports = {
     sendPertanyaan,
     sendPosition,
     getEntityFromDB,
-    removeEntity
+    removeEntity,
+    updateTile
 }

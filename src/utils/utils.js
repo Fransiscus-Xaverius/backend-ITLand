@@ -17,7 +17,7 @@ const functions = {
             dict.tile.push([])
             dict.entity.push([])
             for (let j = 0; j < 100; j++) {
-                if (i == 0 || j == 0) {
+                if (i == 0 || j == 0 || i == 99 || j==99) {
                     dict.tile[i].push("gravel");
                     let foo = await sequelize.query(
                         `INSERT INTO tile (tile_name, x, y) VALUES (:tile_name, :x, :y)`,{

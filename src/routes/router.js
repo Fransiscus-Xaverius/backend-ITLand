@@ -1,5 +1,5 @@
 const express = require("express");
-const { sendPosition, sendMap, sendEntity, sendPertanyaan, sendAll, removeEntity} = require("../controller/map");
+const { sendPosition, sendMap, sendEntity, sendPertanyaan, sendAll, removeEntity, updateTile} = require("../controller/map");
 const login = require("../controller/login");
 const {getGold, initializePlayerData, updatePlayer, getPlayer, updateGold, Attack} = require("../controller/update");
 
@@ -10,7 +10,10 @@ router.post('/position', sendPosition);
 router.get('/entity', sendEntity);
 router.get('/question', sendPertanyaan);
 router.get('/', sendAll);
+
+//map endpoints
 router.delete("/entity", removeEntity)
+router.put("/dig", updateTile);
 
 //send to master
 router.post("/transaction", updateGold); //gold transaction to master API.
