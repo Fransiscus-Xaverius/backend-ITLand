@@ -94,6 +94,21 @@ async function initializePlayerData(req, res) {
     return res.status(200).send("OK");
 }
 
+async function sendInventory(req,res){
+    const {username} = req.body;
+    let foo = await sequelize.query(
+        `SELECT * from inventory where username=:username`,{
+            replacements:{
+                username:username
+            }
+        }
+    )
+    if(!foo){
+        return res.status(500).send({msg:"error"});
+    }
+    return res.status(200).send(foo[0][0]);
+}
+
 async function updateInventory(req,res){
     const {username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel} = req.body;
     let foo = await sequelize.query(
@@ -173,7 +188,8 @@ module.exports = {
     getPlayer,
     updateGold,
     Attack,
-    updateInventory
+    updateInventory,
+    sendInventory
 }
 
 
