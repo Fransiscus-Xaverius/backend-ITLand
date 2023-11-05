@@ -34,11 +34,19 @@ async function Attack(req, res) {
 async function playerDefined() {
     let foo = await sequelize.query(
         `select COUNT(*) as count from player`, {
-    }
+        }
     )
     let count = foo[0][0].count;
     console.log("player data : " + count);
     if (count == 0) return false;
+
+    foo = await sequelize.query(
+        `select COUNT(*) as count from inventory`, {}
+    )
+    let inven = foo[0][0].count;    
+
+    if(inven==0||count==0) return false;
+
     return true;
 }
 
@@ -58,7 +66,7 @@ async function getPlayer(req, res) {
 }
 
 async function initializePlayerData(req, res) {
-    const { x, y, energy } = req.query;
+    const { x, y, energy, username } = req.query;
     const defined = await playerDefined();
     if (!defined) {
         foo = await sequelize.query(`INSERT INTO player (x, y, energy) VALUES (:x, :y, :energy)`, {
@@ -71,6 +79,15 @@ async function initializePlayerData(req, res) {
         if (!foo) {
             return res.status(500).send({ msg: "error" })
         }
+
+        foo = await sequelize.query(`INSERT INTO inventory (username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel) VALUES (:username, 0, 0, 0, 0, 0, 0)`, {
+            replacements:{
+                username:username
+            }
+        })
+
+        if(!foo) return res.status(500).send({msg:"error"});
+
         return res.status(200).send("OK");
     }
 
@@ -78,10 +95,11 @@ async function initializePlayerData(req, res) {
 }
 
 async function updateInventory(req,res){
-    const {B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel} = req.query;
+    const {username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel} = req.query;
     let foo = await sequelize.query(
-        `UPDATE inventory set B1_amount=:B1_amount, B2_amount=:B2_amount, B3_amount=:B3_amount, pickaxeLevel=:pickaxeLevel, shovelLevel=:shovelLevel, swordLevel=:swordLevel`,{
+        `UPDATE inventory set B1_amount=:B1_amount, B2_amount=:B2_amount, B3_amount=:B3_amount, pickaxeLevel=:pickaxeLevel, shovelLevel=:shovelLevel, swordLevel=:swordLevel where username=:username`,{
             replacements:{
+                username:username,
                 B1_amount:B1_amount,
                 B2_amount:B2_amount,
                 B3_amount:B3_amount,
