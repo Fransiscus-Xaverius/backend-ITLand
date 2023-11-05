@@ -95,7 +95,7 @@ async function initializePlayerData(req, res) {
 }
 
 async function sendInventory(req,res){
-    const {username} = req.body;
+    const {username} = req.query;
     let foo = await sequelize.query(
         `SELECT * from inventory where username=:username`,{
             replacements:{
