@@ -66,7 +66,7 @@ async function getPlayer(req, res) {
 }
 
 async function initializePlayerData(req, res) {
-    const { x, y, energy, username } = req.query;
+    const { x, y, energy, username } = req.body;
     const defined = await playerDefined();
     if (!defined) {
         foo = await sequelize.query(`INSERT INTO player (x, y, energy) VALUES (:x, :y, :energy)`, {
