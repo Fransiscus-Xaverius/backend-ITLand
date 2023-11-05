@@ -66,7 +66,7 @@ async function getPlayer(req, res) {
 }
 
 async function initializePlayerData(req, res) {
-    const { x, y, energy, username } = req.body;
+    const { x, y, energy, username } = req.query;
     const defined = await playerDefined();
     if (!defined) {
         foo = await sequelize.query(`INSERT INTO player (x, y, energy) VALUES (:x, :y, :energy)`, {
@@ -95,7 +95,7 @@ async function initializePlayerData(req, res) {
 }
 
 async function updateInventory(req,res){
-    const {username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel} = req.query;
+    const {username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel} = req.body;
     let foo = await sequelize.query(
         `UPDATE inventory set B1_amount=:B1_amount, B2_amount=:B2_amount, B3_amount=:B3_amount, pickaxeLevel=:pickaxeLevel, shovelLevel=:shovelLevel, swordLevel=:swordLevel where username=:username`,{
             replacements:{
