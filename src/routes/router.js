@@ -1,7 +1,7 @@
 const express = require("express");
 const { sendPosition, sendMap, sendEntity, sendPertanyaan, sendAll, removeEntity, updateTile} = require("../controller/map");
 const login = require("../controller/login");
-const {getGold, initializePlayerData, updatePlayer, getPlayer, updateGold, Attack} = require("../controller/update");
+const {getGold, initializePlayerData, updatePlayer, getPlayer, updateGold, Attack, updateInventory} = require("../controller/update");
 
 const router = express.Router();
 
@@ -27,5 +27,6 @@ router.get('/player', getPlayer);
 router.get("/gold", getGold); //get gold
 router.put("/player", updatePlayer); //update player position in local db
 router.post("/player", initializePlayerData) //initialize player values in local db
+router.put('/inventory', updateInventory);
 
 module.exports = router;

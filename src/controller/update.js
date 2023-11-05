@@ -77,6 +77,27 @@ async function initializePlayerData(req, res) {
     return res.status(200).send("OK");
 }
 
+async function updateInventory(req,res){
+    const {B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel} = req.query;
+    let foo = await sequelize.query(
+        `UPDATE inventory set B1_amount=:B1_amount, B2_amount=:B2_amount, B3_amount=:B3_amount, pickaxeLevel=:pickaxeLevel, shovelLevel=:shovelLevel, swordLevel=:swordLevel`,{
+            replacements:{
+                B1_amount:B1_amount,
+                B2_amount:B2_amount,
+                B3_amount:B3_amount,
+                pickaxeLevel:pickaxeLevel,
+                shovelLevel:shovelLevel,
+                swordLevel:swordLevel
+            }
+        }
+    )
+    if(!foo){
+        console.log("ERROR UPDATING INVENTORY");
+        return res.status(500).send({msg:"error updating inventory"})
+    }
+    return res.status(200).send("OK");
+}
+
 async function updatePlayer(req, res) {
     //save x,y,energy values from player to db
     const { x, y, energy } = req.query;
@@ -133,7 +154,8 @@ module.exports = {
     updatePlayer,
     getPlayer,
     updateGold,
-    Attack
+    Attack,
+    updateInventory
 }
 
 
