@@ -177,6 +177,15 @@ INSERT INTO `users` (`id`, `name`, `password`, `score`) VALUES
 ('U029', 'test29', '12345678', 0),
 ('U030', 'test30', '12345678', 0);
 
+CREATE TABLE `inventory` (
+  `username` varchar(256) NOT NULL,
+  `B1_amount` int(11) NOT NULL,
+  `B2_amount` int(11) NOT NULL,
+  `B3_amount` int(11) NOT NULL,
+  `pickaxeLevel` int(11) NOT NULL,
+  `shovelLevel` int(11) NOT NULL,
+  `swordLevel` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
