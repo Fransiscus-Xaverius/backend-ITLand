@@ -176,7 +176,6 @@ async function getLastAttack(req,res){
     const url = `${MASTER_API_URL}/last-attack?username=${username}`;
     try {
         let result = await axios.get(url);
-        console.log(result);
         return res.status(200).send(result.data);
     } catch (error) {
         console.log(error);
@@ -189,7 +188,6 @@ async function seeAttack(req,res){
     const url = `${MASTER_API_URL}/see-attack?id=${id}`;
     try {
         let result = await axios.put(url);
-        console.log(result);
         return res.status(200).send(result.data);
     } catch (error) {
         console.log(error);
