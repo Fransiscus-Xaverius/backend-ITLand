@@ -17,7 +17,7 @@ async function updateGold(req, res) {
 
     const username = userdata.name;
 
-    const url = `${MASTER_API_URL}/gold?username=${username}&amount=${gold}`;
+    const url = `${MASTER_API_URL}/gold?username=${username}&amount=${gold}&sender=${username}`;
     let result = await axios.post(url);
 
     return res.status(200).send({ msg: "OK" });
@@ -26,7 +26,8 @@ async function updateGold(req, res) {
 async function Attack(req, res) {
     const username = req.query.username;
     const gold = req.query.gold;
-    const url = `${MASTER_API_URL}/gold?username=${username}&amount=${gold}`;
+    const sender = req.query.sender;
+    const url = `${MASTER_API_URL}/gold?username=${username}&amount=${gold}&sender=${sender}`;
     let result = await axios.post(url);
     return res.status(200).send({ msg: "OK" });
 }
@@ -170,15 +171,30 @@ async function getGold(req, res) {
     return res.status(200).send({gold:0});
 }
 
-async function registerGold(req, res) {
-    const token = req.body.token;
-    let userdata;
+async function getLastAttack(req,res){
+    const username = req.query.username;
+    const url = `${MASTER_API_URL}/last-attack?username=${username}`;
     try {
-        userdata = jwt.verify(token, JWT_SECRET);
+        let result = await axios.get(url);
+        console.log(result);
+        return res.status(200).send(result.data);
     } catch (error) {
-        return res.status(401).send({ message: "Token tidak valid" })
+        console.log(error);
+        return res.status(200).send("bruh")
     }
+}
 
+async function seeAttack(req,res){
+    const id = req.query.id;
+    const url = `${MASTER_API_URL}/see-attack?id=${id}`;
+    try {
+        let result = await axios.put(url);
+        console.log(result);
+        return res.status(200).send(result.data);
+    } catch (error) {
+        console.log(error);
+        return res.status(200).send("bruh")
+    }
 }
 
 module.exports = {
@@ -189,7 +205,9 @@ module.exports = {
     updateGold,
     Attack,
     updateInventory,
-    sendInventory
+    sendInventory,
+    getLastAttack,
+    seeAttack
 }
 
 
