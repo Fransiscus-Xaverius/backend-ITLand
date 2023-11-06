@@ -80,7 +80,7 @@ async function initializePlayerData(req, res) {
             return res.status(500).send({ msg: "error" })
         }
 
-        foo = await sequelize.query(`INSERT INTO inventory (username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel) VALUES (:username, 0, 0, 0, 0, 0, 0)`, {
+        foo = await sequelize.query(`INSERT INTO inventory (username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel) VALUES (:username, 0, 0, 0, 1, 1, 1)`, {
             replacements:{
                 username:username
             }
@@ -110,7 +110,7 @@ async function sendInventory(req,res){
 }
 
 async function updateInventory(req,res){
-    const {username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel} = req.body;
+    const {username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel} = req.query;
     let foo = await sequelize.query(
         `UPDATE inventory set B1_amount=:B1_amount, B2_amount=:B2_amount, B3_amount=:B3_amount, pickaxeLevel=:pickaxeLevel, shovelLevel=:shovelLevel, swordLevel=:swordLevel where username=:username`,{
             replacements:{
