@@ -1,18 +1,16 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2023 at 08:40 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Nov 06, 2023 at 02:13 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-create database if not exists db_game;
-use db_game;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -22,6 +20,8 @@ use db_game;
 --
 -- Database: `db_game`
 --
+CREATE DATABASE IF NOT EXISTS `db_game` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `db_game`;
 
 -- --------------------------------------------------------
 
@@ -33,7 +33,23 @@ CREATE TABLE `entity` (
   `entity_name` varchar(128) NOT NULL,
   `x` int(11) NOT NULL,
   `y` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory`
+--
+
+CREATE TABLE `inventory` (
+  `username` varchar(256) NOT NULL,
+  `B1_amount` int(11) NOT NULL,
+  `B2_amount` int(11) NOT NULL,
+  `B3_amount` int(11) NOT NULL,
+  `pickaxeLevel` int(11) NOT NULL,
+  `shovelLevel` int(11) NOT NULL,
+  `swordLevel` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -45,12 +61,7 @@ CREATE TABLE `player` (
   `x` int(11) NOT NULL,
   `y` int(11) NOT NULL,
   `energy` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `player`
---
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -66,7 +77,7 @@ CREATE TABLE `question` (
   `c` mediumtext NOT NULL,
   `d` mediumtext NOT NULL,
   `answer` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `question`
@@ -126,7 +137,7 @@ CREATE TABLE `tile` (
   `tile_name` varchar(128) NOT NULL,
   `x` int(11) NOT NULL,
   `y` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -139,53 +150,43 @@ CREATE TABLE `users` (
   `name` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL,
   `score` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `password`, `score`) VALUES
-('U001', 'test1', '12345678', 0),
-('U002', 'test2', '12345678', 0),
-('U003', 'test3', '12345678', 0),
-('U004', 'test4', '12345678', 0),
-('U005', 'test5', '12345678', 0),
-('U006', 'test6', '12345678', 0),
-('U007', 'test7', '12345678', 0),
-('U008', 'test8', '12345678', 0),
-('U009', 'test9', '12345678', 0),
-('U010', 'test10', '12345678', 0),
-('U011', 'test11', '12345678', 0),
-('U012', 'test12', '12345678', 0),
-('U013', 'test13', '12345678', 0),
-('U014', 'test14', '12345678', 0),
-('U015', 'test15', '12345678', 0),
-('U016', 'test16', '12345678', 0),
-('U017', 'test17', '12345678', 0),
-('U018', 'test18', '12345678', 0),
-('U019', 'test19', '12345678', 0),
-('U020', 'test20', '12345678', 0),
-('U021', 'test21', '12345678', 0),
-('U022', 'test22', '12345678', 0),
-('U023', 'test23', '12345678', 0),
-('U024', 'test24', '12345678', 0),
-('U025', 'test25', '12345678', 0),
-('U026', 'test26', '12345678', 0),
-('U027', 'test27', '12345678', 0),
-('U028', 'test28', '12345678', 0),
-('U029', 'test29', '12345678', 0),
-('U030', 'test30', '12345678', 0);
-
-CREATE TABLE `inventory` (
-  `username` varchar(256) NOT NULL,
-  `B1_amount` int(11) NOT NULL,
-  `B2_amount` int(11) NOT NULL,
-  `B3_amount` int(11) NOT NULL,
-  `pickaxeLevel` int(11) NOT NULL,
-  `shovelLevel` int(11) NOT NULL,
-  `swordLevel` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+('U001', 'test1', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U002', 'test2', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U003', 'test3', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U004', 'test4', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U005', 'test5', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U006', 'test6', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U007', 'test7', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U008', 'test8', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U009', 'test9', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U010', 'test10', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U011', 'test11', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U012', 'test12', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U013', 'test13', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U014', 'test14', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U015', 'test15', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U016', 'test16', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U017', 'test17', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U018', 'test18', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U019', 'test19', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U020', 'test20', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U021', 'test21', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U022', 'test22', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U023', 'test23', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U024', 'test24', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U025', 'test25', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U026', 'test26', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U027', 'test27', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U028', 'test28', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U029', 'test29', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0),
+('U030', 'test30', '$2y$12$2Dtkr2xrY1vZQ2PvnJd.J.A0sZkOuDblmjwLpr6gCNUtw8kBMoj1q', 0);
 
 --
 -- Indexes for dumped tables
