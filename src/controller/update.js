@@ -28,8 +28,13 @@ async function Attack(req, res) {
     const gold = req.query.gold;
     const sender = req.query.sender;
     const url = `${MASTER_API_URL}/gold?username=${username}&amount=${gold}&sender=${sender}`;
-    let result = await axios.post(url);
-    return res.status(200).send({ msg: "OK" });
+    try {
+        let result = await axios.post(url);
+        return res.status(200).send({ msg: "OK" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({ msg: "Error occurred while processing request" });
+    }
 }
 
 async function playerDefined() {
@@ -52,103 +57,116 @@ async function playerDefined() {
 }
 
 async function getPlayer(req, res) {
-    let player = {
-        x: 1,
-        y: 1,
-        gold: 500
+    try {
+        let [result, metadata] = await sequelize.query(`SELECT * from player`);
+        if(result){
+            return res.status(200).send(result[0]);
+        }
+        return res.status(404).send({msg:"player data not found"});
+    } catch (error) {
+        return res.status(500).send({ msg: "error getting player data" })
     }
-
-    let [result, metadata] = await sequelize.query(`SELECT * from player`);
-    console.log(result[0]);
-    // player.x = result[0].x;
-    // player.y = result[0].y;
-    // player.gold = result[0].gold;
-    return res.status(200).send(result[0]);
 }
 
 async function initializePlayerData(req, res) {
     const { x, y, energy, username } = req.query;
-    const defined = await playerDefined();
-    if (!defined) {
-        foo = await sequelize.query(`INSERT INTO player (x, y, energy) VALUES (:x, :y, :energy)`, {
-            replacements: {
-                x: x,
-                y: y,
-                energy: energy
+    try {
+        const defined = await playerDefined();
+        if (!defined) {
+            foo = await sequelize.query(`INSERT INTO player (x, y, energy) VALUES (:x, :y, :energy)`, {
+                replacements: {
+                    x: x,
+                    y: y,
+                    energy: energy
+                }
+            })
+            if (!foo) {
+                return res.status(500).send({ msg: "error" })
             }
-        })
-        if (!foo) {
-            return res.status(500).send({ msg: "error" })
+
+            foo = await sequelize.query(`INSERT INTO inventory (username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel) VALUES (:username, 0, 0, 0, 1, 1, 1)`, {
+                replacements:{
+                    username:username
+                }
+            })
+
+            if(!foo) return res.status(500).send({msg:"error"});
+
+            return res.status(200).send("OK");
         }
 
-        foo = await sequelize.query(`INSERT INTO inventory (username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel) VALUES (:username, 0, 0, 0, 1, 1, 1)`, {
-            replacements:{
-                username:username
-            }
-        })
-
-        if(!foo) return res.status(500).send({msg:"error"});
-
         return res.status(200).send("OK");
+    } catch (error) {
+        return res.status(500).send({ msg: "error initializing player data. Maybe its already initialized? check the database!" })
     }
-
-    return res.status(200).send("OK");
 }
 
 async function sendInventory(req,res){
     const {username} = req.query;
-    let foo = await sequelize.query(
-        `SELECT * from inventory where username=:username`,{
-            replacements:{
-                username:username
+    try {
+        let foo = await sequelize.query(
+            `SELECT * from inventory where username=:username`,{
+                replacements:{
+                    username:username
+                }
             }
+        )
+        if(!foo){
+            return res.status(500).send({msg:"error"});
         }
-    )
-    if(!foo){
-        return res.status(500).send({msg:"error"});
+        return res.status(200).send(foo[0][0]);
+    } catch (error) {
+        return res.status(500).send({msg:error});
     }
-    return res.status(200).send(foo[0][0]);
 }
 
 async function updateInventory(req,res){
     const {username, B1_amount, B2_amount, B3_amount, pickaxeLevel, shovelLevel, swordLevel} = req.query;
-    let foo = await sequelize.query(
-        `UPDATE inventory set B1_amount=:B1_amount, B2_amount=:B2_amount, B3_amount=:B3_amount, pickaxeLevel=:pickaxeLevel, shovelLevel=:shovelLevel, swordLevel=:swordLevel where username=:username`,{
-            replacements:{
-                username:username,
-                B1_amount:B1_amount,
-                B2_amount:B2_amount,
-                B3_amount:B3_amount,
-                pickaxeLevel:pickaxeLevel,
-                shovelLevel:shovelLevel,
-                swordLevel:swordLevel
+    try {
+        let foo = await sequelize.query(
+            `UPDATE inventory set B1_amount=:B1_amount, B2_amount=:B2_amount, B3_amount=:B3_amount, pickaxeLevel=:pickaxeLevel, shovelLevel=:shovelLevel, swordLevel=:swordLevel where username=:username`,{
+                replacements:{
+                    username:username,
+                    B1_amount:B1_amount,
+                    B2_amount:B2_amount,
+                    B3_amount:B3_amount,
+                    pickaxeLevel:pickaxeLevel,
+                    shovelLevel:shovelLevel,
+                    swordLevel:swordLevel
+                }
             }
+        )
+        if(!foo){
+            console.log("ERROR UPDATING INVENTORY");
+            return res.status(500).send({msg:"error updating inventory"})
         }
-    )
-    if(!foo){
-        console.log("ERROR UPDATING INVENTORY");
+        return res.status(200).send("OK");
+    } catch (error) {
         return res.status(500).send({msg:"error updating inventory"})
     }
-    return res.status(200).send("OK");
 }
 
 async function updatePlayer(req, res) {
     //save x,y,energy values from player to db
     const { x, y, energy } = req.query;
-    let foo = await sequelize.query(
-        `UPDATE player SET x=:x, y=:y, energy=:energy`, {
-        replacements: {
-            x: x,
-            y: y,
-            energy: energy
+    try {
+        let foo = await sequelize.query(
+            `UPDATE player SET x=:x, y=:y, energy=:energy`, {
+            replacements: {
+                x: x,
+                y: y,
+                energy: energy
+            }
         }
+        )
+        if (!foo) {
+            return res.status(500).send({ msg: "error" })
+        }
+        // console.log("updated player!");
+        return res.status(200).send("OK");
+    } catch (error) {
+        return res.status(500).send({ msg: "error updating player data" })
     }
-    )
-    if (!foo) {
-        return res.status(500).send({ msg: "error" })
-    }
-    // console.log("updated player!");
-    return res.status(200).send("OK");
 }
 
 async function getGold(req, res) {
@@ -179,7 +197,7 @@ async function getLastAttack(req,res){
         return res.status(200).send(result.data);
     } catch (error) {
         console.log(error);
-        return res.status(200).send("bruh")
+        return res.status(200).send("no attack");
     }
 }
 
@@ -191,7 +209,7 @@ async function seeAttack(req,res){
         return res.status(200).send(result.data);
     } catch (error) {
         console.log(error);
-        return res.status(200).send("bruh")
+        return res.status(200).send("failed to send verification of seen attack")
     }
 }
 
